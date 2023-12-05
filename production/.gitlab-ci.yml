@@ -1,7 +1,7 @@
 stages:
-  - validate-production
-  - plan-production
-  - apply-production
+  - validate
+  - plan
+  - apply
 
 image:
   name: hashicorp/terraform:light
@@ -25,33 +25,33 @@ cache:
   paths:
     - ${TF_ROOT}/.terraform/
 
-validate-production:
-  stage: validate-production
+validate:
+  stage: validate
   tags:
     - ic2m2
   script:
     - terraform validate
 
-plan-production:
-  stage: plan-production
+plan:
+  stage: plan
   tags:
     - ic2m2
   script:
     - terraform plan -out=$PLAN
     - terraform show -no-color -json $PLAN > $PLAN_JSON
   dependencies:
-    - validate-production
+    - validate
   artifacts:
     paths:
       - ${TF_ROOT}/$PLAN
       - ${TF_ROOT}/$PLAN_JSON
 
-apply-production:
-  stage: apply-production
+apply:
+  stage: apply
   tags:
     - ic2m2
   script:
     - ls -la
     - terraform apply -auto-approve
   dependencies:
-    - plan-production
+    - plan

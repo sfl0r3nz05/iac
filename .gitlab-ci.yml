@@ -1,10 +1,13 @@
-include:
-  #- local: 'development/.gitlab-ci.yml'
-  - local: 'staging/.gitlab-ci.yml'
-    rules:
-      - if: $CI_COMMIT_BRANCH == "master"
-        when: always
-  - local: 'production/.gitlab-ci.yml'
-    rules:
-      - if: $CI_COMMIT_BRANCH == "master"
-        when: always
+stages:
+  - trigger-staging
+  - trigger-production
+
+trigger-staging:
+  stage: trigger-staging
+  trigger:
+    include: staging/.gitlab-ci.yml
+
+trigger-production:
+  stage: trigger-production
+  trigger:
+    include: production/.gitlab-ci.yml
