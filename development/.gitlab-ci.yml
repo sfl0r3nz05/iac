@@ -51,7 +51,6 @@ apply:
   tags:
     - ic2m2
   script:
-    - ls -la
     - terraform apply -auto-approve
   dependencies:
     - plan

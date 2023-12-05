@@ -83,19 +83,14 @@ resource "proxmox_vm_qemu" "test_server" {
     private_key = "${file("./keys/key-file")}"
   }
 
-  provisioner "remote-exec"{
+  provisioner "remote-exec" {
     inline = [
-      "echo terraform | sudo -S apt-get update",
-      "echo terraform | sudo -S apt-get upgrade -y",
-      "echo terraform | sudo -S curl -fsSL https://get.docker.com -o get-docker.sh",
-      "echo terraform | sudo -S sh get-docker.sh",
-      "echo terraform | sudo -S groupadd docker",
-      "echo terraform | sudo -S usermod -aG docker $USER",
-      "echo terraform | sudo -S newgrp docker",
-      "echo terraform | sudo -S mkdir -p ~/.docker/cli-plugins/",
-      "echo terraform | sudo -S curl -SL https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose",
-      "echo terraform | sudo -S chmod +x ~/.docker/cli-plugins/docker-compose",
-      "docker compose version",
+      "sudo apt-get update",
+      "sudo apt-get install -y docker.io",
+      "sudo systemctl enable docker",
+      "sudo usermod -aG docker ${USER}",
+      "sudo curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose",
+      "sudo chmod +x /usr/local/bin/docker-compose",
     ]
   }
 }

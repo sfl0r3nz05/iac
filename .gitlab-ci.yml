@@ -1,6 +1,12 @@
 stages:
+  - trigger-development
   - trigger-staging
   - trigger-production
+
+trigger-development:
+  stage: trigger-development
+  trigger:
+    include: development/.gitlab-ci.yml
 
 trigger-staging:
   stage: trigger-staging
