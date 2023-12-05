@@ -58,15 +58,3 @@ apply:
     - terraform apply -auto-approve
   dependencies:
     - plan
-
-#sync-cluster:
-# Add K8s cluster to ArgoCD
-# argocd cluster add k3s-cluster --kubeconfig $HOME/.kube/config
-# tags:
-#   - ic2m2
-
-#sync-agent:
-# Add K8s cluster to ArgoCD
-# argocd cluster add k3s-cluster --kubeconfig $HOME/.kube/config
-# tags:
-#   - ic2m2

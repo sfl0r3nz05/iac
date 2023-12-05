@@ -69,7 +69,7 @@ resource "proxmox_vm_qemu" "test_server" {
   # in this case, since we are only adding a single VM, the IP will
   # be 10.98.1.91 since count.index starts at 0. this is how you can create
   # multiple VMs and have an IP assigned to each (.91, .92, .93, etc.)
-  ipconfig0 = "ip=10.63.27.68/24,gw=10.63.27.1"
+  ipconfig0 = "ip=10.63.27.70/24,gw=10.63.27.1"
   
   # sshkeys set using variables. the variable contains the text of the key.
   sshkeys = <<EOF
@@ -78,7 +78,7 @@ resource "proxmox_vm_qemu" "test_server" {
   connection {
     type = "ssh"
     user = "ubuntu"
-    host = "10.63.27.68"
+    host = "10.63.27.70"
     #agent = true
     private_key = "${file("./keys/key-file")}"
   }
