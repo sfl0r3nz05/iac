@@ -61,10 +61,11 @@ apply:
 
 sync-k8s-cluster:
   stage: sync-k8s-cluster
-  image: ubuntu:20.04
   tags:
     - ic2m2
   script:
+    - uname -a
+    - apt install curl
     - curl -L https://tuf.werf.io/targets/releases/1.2.269/linux-amd64/bin/werf -o werf
     - chmod +x werf
     - mv werf /usr/local/bin/werf
