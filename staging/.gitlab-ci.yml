@@ -2,6 +2,7 @@ stages:
   - validate
   - plan
   - apply
+  - sync-k8s-cluster
 
 image:
   name: hashicorp/terraform:light
