@@ -10,7 +10,7 @@ image:
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 
 variables:
-  TF_ROOT: ./iac  # The relative path to the root directory of the Terraform project
+  TF_ROOT: ./staging  # The relative path to the root directory of the Terraform project
   PLAN: plan.cache
   PLAN_JSON: plan.json
 
