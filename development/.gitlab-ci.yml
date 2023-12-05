@@ -28,14 +28,14 @@ cache:
 validate:
   stage: validate
   tags:
-    - terraform
+    - ic2m2
   script:
     - terraform validate
 
 plan:
   stage: plan
   tags:
-    - terraform
+    - ic2m2
   script:
     - terraform plan -out=$PLAN
     - terraform show -no-color -json $PLAN > $PLAN_JSON
@@ -49,7 +49,7 @@ plan:
 apply:
   stage: apply
   tags:
-    - terraform
+    - ic2m2
   script:
     - ls -la
     - terraform apply -auto-approve
