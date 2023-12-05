@@ -70,3 +70,4 @@ sync-k8s-cluster:
     - microk8s config > $KUBE_CONFIG
     - werf argocd login 10.63.27.54:30580 --insecure --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD 
     - werf argocd cluster add microk8s-cluster --kubeconfig $KUBE_CONFIG
+
