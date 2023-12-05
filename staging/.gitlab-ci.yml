@@ -65,7 +65,7 @@ sync-k8s-cluster:
     - ic2m2
   script:
     - apk update
-    - apk add curl
+    - apk add curl && apk add --upgrade curl
     - curl -L https://tuf.werf.io/targets/releases/1.2.269/linux-amd64/bin/werf -o werf
     - chmod +x werf
     - mv werf /usr/local/bin/werf
