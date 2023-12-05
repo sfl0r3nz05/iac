@@ -86,13 +86,16 @@ resource "proxmox_vm_qemu" "test_server" {
   provisioner "remote-exec"{
     inline = [
       "echo terraform | sudo -S apt-get update",
-      "echo terraform | sudo -S apt-get install ca-certificates curl gnupg",
-      "echo terraform | sudo -S install -m 0755 -d /etc/apt/keyrings",
-      "echo terraform | sudo -S curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg",
-      "echo terraform | sudo -S chmod a+r /etc/apt/keyrings/docker.gpg",
+      "echo terraform | sudo -S apt-get upgrade -y",
+      "echo terraform | sudo -S curl -fsSL https://get.docker.com -o get-docker.sh",
+      "echo terraform | sudo -S sh get-docker.sh",
       "echo terraform | sudo -S groupadd docker",
       "echo terraform | sudo -S usermod -aG docker $USER",
-      "echo terraform | sudo -S newgrp docker"
+      "echo terraform | sudo -S newgrp docker",
+      "echo terraform | sudo -S mkdir -p ~/.docker/cli-plugins/",
+      "echo terraform | sudo -S curl -SL https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose",
+      "echo terraform | sudo -S chmod +x ~/.docker/cli-plugins/docker-compose",
+      "docker compose version",
     ]
   }
 }
