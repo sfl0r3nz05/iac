@@ -99,5 +99,3 @@ resource "proxmox_vm_qemu" "test_server" {
     ]
   }
 }
-
-
