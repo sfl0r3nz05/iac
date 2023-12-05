@@ -1,0 +1,56 @@
+stages:
+  - development
+  - staging
+  - production
+  - sync-staging-cluster
+  - sync-production-cluster
+  - sync-agent-staging
+  - sync-agent-production
+
+# Set development infrastructure.
+development:
+  stage: development
+  tags:
+    - ic2m2
+
+# Set staging infrastructure.
+staging:
+  stage: development
+  tags:
+    - ic2m2
+
+# Set production infrastructure.
+production:
+  stage: development
+  tags:
+    - ic2m2
+
+# Set K8s Staging cluster on ArgoCD.
+  # Add K8s cluster to ArgoCD
+  # argocd cluster add k3s-cluster --kubeconfig $HOME/.kube/config
+sync-staging-cluster:
+  stage: sync-staging-cluster
+  tags:
+    - ic2m2
+
+# Set K8s production cluster on ArgoCD.
+sync-production-cluster:
+  stage: sync-production-cluster
+  tags:
+    - ic2m2
+
+# Install K8s agent on staging VM.
+  # Add K8s cluster to ArgoCD
+  # argocd cluster add k3s-cluster --kubeconfig $HOME/.kube/config
+sync-agent-staging:
+  stage: sync-agent-staging
+  tags:
+    - ic2m2
+
+# Install K8s agent on production VM.
+  # Add K8s cluster to ArgoCD
+  # argocd cluster add k3s-cluster --kubeconfig $HOME/.kube/config
+sync-agent-production:
+  stage: sync-agent-production
+  tags:
+    - ic2m2
