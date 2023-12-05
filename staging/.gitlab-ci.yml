@@ -64,7 +64,6 @@ sync-k8s-cluster:
   tags:
     - ic2m2
   script:
-    - microk8s config > $KUBE_CONFIG
     - apt-get install curl
     - curl -L https://tuf.werf.io/targets/releases/1.2.269/linux-amd64/bin/werf -o werf
     - chmod +x werf
