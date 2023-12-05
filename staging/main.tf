@@ -88,17 +88,9 @@ resource "proxmox_vm_qemu" "test_server" {
       "echo terraform | sudo -S apt-get update",
       "echo terraform | sudo -S apt-get upgrade -y",
       "echo terraform | sudo -S snap install microk8s --classic --channel=1.18/stable",
-      "echo terraform | sudo -S usermod -aG microk8s $USER",
+      "echo terraform | sudo -S usermod -aG microk8s ubuntu",
       "echo terraform | sudo -S mkdir ~/.kube",
-      "echo terraform | sudo -S chown -f -R $USER ~/.kube",
-      "lxc image copy ubuntu:20.04 local:",
-      <<-EOT
-        cat <<EOF | lxd init --preseed
-        ${file("./files/preseed.yaml")}
-        EOF
-        lxc launch ubuntu:20.04 master
-      EOT
-      
+      "echo terraform | sudo -S chown -f -R ubuntu ~/.kube",      
     ]
   }
 }

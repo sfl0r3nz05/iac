@@ -15,6 +15,8 @@ variables:
   PLAN: plan.cache
   PLAN_JSON: plan.json
   KUBE_CONFIG: kube.config
+  ARGOCD_USERNAME: "admin"
+  ARGOCD_PASSWORD: "argoAdmin"
 
 before_script:
   - rm -rf .terraform
@@ -66,4 +68,5 @@ sync-k8s-cluster:
     - chmod +x werf
     - mv werf /usr/local/bin/werf
     - microk8s config > $KUBE_CONFIG
+    - werf argocd login 10.63.27.54:30580 --insecure --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD 
     - werf argocd cluster add microk8s-cluster --kubeconfig $KUBE_CONFIG
