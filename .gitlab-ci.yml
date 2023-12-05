@@ -1,4 +1,4 @@
 include:
   #- local: 'development/.gitlab-ci.yml'
   - local: 'staging/.gitlab-ci.yml'
-  - local: 'production/.gitlab-ci.yml'
+  #- local: 'production/.gitlab-ci.yml'
