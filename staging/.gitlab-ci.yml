@@ -32,14 +32,14 @@ cache:
 validate:
   stage: validate
   tags:
-    - ic2m2
+    - terraform
   script:
     - terraform validate
 
 plan:
   stage: plan
   tags:
-    - ic2m2
+    - terraform
   script:
     - terraform plan -out=$PLAN
     - terraform show -no-color -json $PLAN > $PLAN_JSON
@@ -53,7 +53,7 @@ plan:
 apply:
   stage: apply
   tags:
-    - ic2m2
+    - terraform
   script:
     - terraform apply -auto-approve
   dependencies:
@@ -62,7 +62,7 @@ apply:
 sync-k8s-cluster:
   stage: sync-k8s-cluster
   tags:
-    - ic2m2
+    - terraform
   script:
     - curl -L https://tuf.werf.io/targets/releases/1.2.269/linux-amd64/bin/werf -o werf
     - chmod +x werf
