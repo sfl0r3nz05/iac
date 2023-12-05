@@ -2,8 +2,6 @@ stages:
   - validate
   - plan
   - apply
-  - sync-cluster
-  - sync-agent
 
 image:
   name: hashicorp/terraform:light
@@ -15,7 +13,6 @@ variables:
   TF_ROOT: ./iac  # The relative path to the root directory of the Terraform project
   PLAN: plan.cache
   PLAN_JSON: plan.json
-
 
 before_script:
   - rm -rf .terraform
