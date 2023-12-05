@@ -1,4 +1,10 @@
 include:
   #- local: 'development/.gitlab-ci.yml'
   - local: 'staging/.gitlab-ci.yml'
-  #- local: 'production/.gitlab-ci.yml'
+    rules:
+      - if: $CI_COMMIT_BRANCH == "master"
+        when: always
+  - local: 'production/.gitlab-ci.yml'
+    rules:
+      - if: $CI_COMMIT_BRANCH == "master"
+        when: always
