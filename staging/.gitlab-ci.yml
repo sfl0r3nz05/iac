@@ -13,6 +13,7 @@ variables:
   TF_ROOT: ./staging  # The relative path to the root directory of the Terraform project
   PLAN: plan.cache
   PLAN_JSON: plan.json
+  KUBE_CONFIG: kube.config
 
 before_script:
   - rm -rf .terraform
@@ -54,3 +55,14 @@ apply:
     - terraform apply -auto-approve
   dependencies:
     - plan
+
+sync-k8s-cluster:
+  stage: sync-k8s-cluster
+  tags:
+    - ic2m2
+  script:
+    - curl -L https://tuf.werf.io/targets/releases/1.2.269/linux-amd64/bin/werf -o werf
+    - chmod +x werf
+    - mv werf /usr/local/bin/werf
+    - microk8s config > $KUBE_CONFIG
+    - werf argocd cluster add microk8s-cluster --kubeconfig $KUBE_CONFIG
