@@ -30,7 +30,7 @@ provider "proxmox" {
 # we are looking to create a proxmox_vm_qemu entity named test_server
 resource "proxmox_vm_qemu" "test_server" {
   count = 1 # just want 1 for now, set to 0 and apply to destroy VM
-  name = "staging-${count.index + 1}" #count.index starts at 0, so + 1 means this VM will be named test-vm-1 in proxmox
+  name = "development-${count.index + 1}" #count.index starts at 0, so + 1 means this VM will be named test-vm-1 in proxmox
   # this now reaches out to the vars file. I could've also used this var above in the pm_api_url setting but wanted to spell it out up there. target_node is different than api_url. target_node is which node hosts the template and thus also which node will host the new VM. it can be different than the host you use to communicate with the API. the variable contains the contents "prox-1u"
   target_node = var.proxmox_host
   # another variable with contents "ubuntu-2004-cloudinit-template"
@@ -86,16 +86,13 @@ resource "proxmox_vm_qemu" "test_server" {
   provisioner "remote-exec"{
     inline = [
       "echo terraform | sudo -S apt-get update",
-      "echo terraform | sudo -S apt-get upgrade -y",
-      "echo terraform | sudo -S curl -fsSL https://get.docker.com -o get-docker.sh",
-      "echo terraform | sudo -S sh get-docker.sh",
+      "echo terraform | sudo -S apt-get install ca-certificates curl gnupg",
+      "echo terraform | sudo -S install -m 0755 -d /etc/apt/keyrings",
+      "echo terraform | sudo -S curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg",
+      "echo terraform | sudo -S chmod a+r /etc/apt/keyrings/docker.gpg",
       "echo terraform | sudo -S groupadd docker",
       "echo terraform | sudo -S usermod -aG docker $USER",
-      "echo terraform | sudo -S newgrp docker",
-      "echo terraform | sudo -S mkdir -p ~/.docker/cli-plugins/",
-      "echo terraform | sudo -S curl -SL https://github.com/docker/compose/releases/download/v2.3.3/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose",
-      "echo terraform | sudo -S chmod +x ~/.docker/cli-plugins/docker-compose",
-      "docker compose version"
+      "echo terraform | sudo -S newgrp docker"
     ]
   }
 }
