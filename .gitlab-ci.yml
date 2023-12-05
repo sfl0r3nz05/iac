@@ -1,7 +1,7 @@
 stages:
   - trigger-development
-  - trigger-staging
-  - trigger-production
+#  - trigger-staging
+#  - trigger-production
 
 trigger-development:
   stage: trigger-development
