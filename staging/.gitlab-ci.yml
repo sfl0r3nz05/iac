@@ -1,0 +1,72 @@
+stages:
+  - validate
+  - plan
+  - apply
+  - sync-cluster
+  - sync-agent
+
+image:
+  name: hashicorp/terraform:light
+  entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+variables:
+  TF_ROOT: ./iac  # The relative path to the root directory of the Terraform project
+  PLAN: plan.cache
+  PLAN_JSON: plan.json
+
+
+before_script:
+  - rm -rf .terraform
+  - terraform --version
+  - cd "${TF_ROOT}"
+  - terraform init
+
+cache:
+  key: "${TF_ROOT}"
+  paths:
+    - ${TF_ROOT}/.terraform/
+
+validate:
+  stage: validate
+  tags:
+    - ic2m2
+  script:
+    - terraform validate
+
+plan:
+  stage: plan
+  tags:
+    - ic2m2
+  script:
+    - terraform plan -out=$PLAN
+    - terraform show -no-color -json $PLAN > $PLAN_JSON
+  dependencies:
+    - validate
+  artifacts:
+    paths:
+      - ${TF_ROOT}/$PLAN
+      - ${TF_ROOT}/$PLAN_JSON
+
+apply:
+  stage: apply
+  tags:
+    - ic2m2
+  script:
+    - ls -la
+    - terraform apply -auto-approve
+  dependencies:
+    - plan
+
+#sync-cluster:
+# Add K8s cluster to ArgoCD
+# argocd cluster add k3s-cluster --kubeconfig $HOME/.kube/config
+# tags:
+#   - ic2m2
+
+#sync-agent:
+# Add K8s cluster to ArgoCD
+# argocd cluster add k3s-cluster --kubeconfig $HOME/.kube/config
+# tags:
+#   - ic2m2
