@@ -1,6 +1,6 @@
 # Infrastructure as Code
 
-    ![](documentation/base_arch.png)
+   ![](documentation/base_arch.png)
 
 ## Task performed
 
