@@ -67,7 +67,7 @@ sync-k8s-cluster:
     - ls -la
     - apk update
     - apk add curl && apk add --upgrade curl
-    - curl -L https://tuf.werf.io/targets/releases/1.2.269/linux-amd64/bin/werf -o werf
+    - curl -sSLO "https://tuf.werf.io/targets/releases/1.2.270/linux-amd64/bin/werf" -o werf
     - chmod +x werf
     - mv werf /usr/local/bin/werf
     - ssh -i keys/key-file ubuntu:10.63.27.69 microk8s config > $KUBE_CONFIG
