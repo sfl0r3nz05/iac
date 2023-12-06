@@ -78,7 +78,7 @@ sync-k8s-cluster:
     - chmod 400 -R keys/key-file
     - ssh -i keys/key-file -o StrictHostKeyChecking=no $USER_STAGING@$HOST_STAGING microk8s config > $KUBE_CONFIG
     - sshpass -p "$ARGOCD_PASSWORD_HOST" ssh -o StrictHostKeyChecking=no $ARGOCD_USER_HOST@$ARGOCD_HOST "kubectl config --kubeconfig=$KUBE_CONFIG set-context $KUBE_CONTEXT --namespace=$ARGOCD_NAMESPACE"
-    - sshpass -p "$ARGOCD_PASSWORD_HOST" ssh -o StrictHostKeyChecking=no $ARGOCD_USER_HOST@$ARGOCD_HOST "argocd login $ARGOCD_HOST:$ARGOCD_PORT --insecure --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD && argocd cluster add microk8s-cluster --kubeconfig $HOME/.kube/config"
+    - sshpass -p "$ARGOCD_PASSWORD_HOST" ssh -o StrictHostKeyChecking=no $ARGOCD_USER_HOST@$ARGOCD_HOST "argocd login $ARGOCD_HOST:$ARGOCD_PORT --insecure --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD && argocd cluster add microk8s-cluster --kubeconfig /home/argo/.kube/config"
   artifacts:
     paths:
       - ${TF_ROOT}/$KUBE_CONFIG

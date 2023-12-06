@@ -15,3 +15,8 @@
 - Set Software Bill of Material (SBOM) Registry.
 - Sync production git repository or Helm package registry with pull strategy on ArgoCD for staging.
 - Sync production git repository or Helm package registry with push strategy on ArgoCD for production.
+
+## To DO
+
+1. Set environmental variables in terraform and transmit to pipelines.
+2. Document the starting.
