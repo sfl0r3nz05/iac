@@ -78,7 +78,7 @@ sync-k8s-cluster:
     - chmod 400 -R keys/key-file
     - ssh -i keys/key-file -o StrictHostKeyChecking=no $USER_STAGING@$HOST_STAGING microk8s config > $KUBE_CONFIG
     - more $KUBE_CONFIG
-    - 'sed -i "s|name: microk8s-cluster|name: microk8s-staging-cluster|g" $KUBE_CONFIG'
+    - 'sed -i "s|current-context: microk8s|current-contex: microk8s-staging-cluster|g" $KUBE_CONFIG'
     - more $KUBE_CONFIG
     - sshpass -p "$ARGOCD_PASSWORD_HOST" scp -o StrictHostKeyChecking=no $KUBE_CONFIG $ARGOCD_USER_HOST@$ARGOCD_HOST:/home/argo/
     - sshpass -p "$ARGOCD_PASSWORD_HOST" ssh -o StrictHostKeyChecking=no $ARGOCD_USER_HOST@$ARGOCD_HOST "cat /home/argo/kube.config >> /home/argo/.kube/config"
