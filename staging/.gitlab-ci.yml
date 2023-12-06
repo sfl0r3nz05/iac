@@ -88,7 +88,7 @@ sync-k8s-cluster:
     - export CLUSTER_CONTEXT_USER=$(yq '.contexts[0].context.user' $KUBE_CONFIG)
     - sshpass -p "$ARGOCD_PASSWORD_HOST" ssh -o StrictHostKeyChecking=no $ARGOCD_USER_HOST@$ARGOCD_HOST "kubectl config --kubeconfig /home/argo/.kube/config set-cluster $CLUSTER_NAME --server=$CLUSTER_URL --certificate-authority=$CLUSTER_CERTIFICATE_AUTHORITY_DATA"
     - sshpass -p "$ARGOCD_PASSWORD_HOST" ssh -o StrictHostKeyChecking=no $ARGOCD_USER_HOST@$ARGOCD_HOST "kubectl config --kubeconfig /home/argo/.kube/config set-credentials $CLUSTER_USER_NAME --username=$CLUSTER_USERNAME --password=$CLUSTER_PASSWORD"
-    - sshpass -p "$ARGOCD_PASSWORD_HOST" ssh -o StrictHostKeyChecking=no $ARGOCD_USER_HOST@$ARGOCD_HOST "kubectl config --kubeconfig /home/argo/.kube/config set-context $CLUSTER_CONTEXT_NAME --cluster=$CLUSTER_CONTEXT_CLUSTER --user=$CLUSTER_CONTEXT_USER"
+    - sshpass -p "$ARGOCD_PASSWORD_HOST" ssh -o StrictHostKeyChecking=no $ARGOCD_USER_HOST@$ARGOCD_HOST "kubectl config --kubeconfig /home/argo/.kube/config set-context microk8s-cluster --cluster=$CLUSTER_CONTEXT_CLUSTER --user=$CLUSTER_CONTEXT_USER"
     - sshpass -p "$ARGOCD_PASSWORD_HOST" ssh -o StrictHostKeyChecking=no $ARGOCD_USER_HOST@$ARGOCD_HOST "argocd login $ARGOCD_HOST:$ARGOCD_PORT --insecure --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD && argocd cluster add microk8s-cluster --kubeconfig /home/argo/.kube/config"
   artifacts:
     paths:
