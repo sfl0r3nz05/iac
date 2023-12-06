@@ -17,8 +17,8 @@ variables:
   KUBE_CONFIG: kube.config
   ARGOCD_USERNAME: "admin"
   ARGOCD_PASSWORD: "argoAdmin"
-  ARGOCD_USER_MV: "argo"
-  ARGOCD_PASSWORD_MV: "argo"
+  ARGOCD_USER_HOST: "argo"
+  ARGOCD_PASSWORD_HOST: "argo"
   ARGOCD_HOST: "10.63.27.54"
   ARGOCD_PORT: 30580
 
@@ -68,11 +68,12 @@ sync-k8s-cluster:
   tags:
     - ic2m2
   script:
-    - ls -la keys/
-    - ls -la
+    - apk add --update openssh
+    - apk update
+    - apk add --upgrade sshpass
     - chmod 400 -R keys/key-file
     - ssh -i keys/key-file -o StrictHostKeyChecking=no ubuntu@10.63.27.69 microk8s config > $KUBE_CONFIG
-    #- sshpass -p "$ARGOCD_PASSWORD_MV" ssh -o StrictHostKeyChecking=no $ARGOCD_USER_MV@$ARGOCD_HOST "argocd login $ARGOCD_HOST:$ARGOCD_PORT --insecure --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD && argocd cluster add microk8s-cluster --kubeconfig $KUBE_CONFIG"
+    - sshpass -p "$ARGOCD_PASSWORD_HOST" ssh -o StrictHostKeyChecking=no $ARGOCD_USER_HOST@$ARGOCD_HOST "argocd login $ARGOCD_HOST:$ARGOCD_PORT --insecure --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD && argocd cluster add microk8s-cluster --kubeconfig $KUBE_CONFIG"
   artifacts:
     paths:
       - ${TF_ROOT}/$KUBE_CONFIG
