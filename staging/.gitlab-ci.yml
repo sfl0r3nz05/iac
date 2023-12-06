@@ -15,12 +15,16 @@ variables:
   PLAN: plan.cache
   PLAN_JSON: plan.json
   KUBE_CONFIG: kube.config
+  KUBE_CONTEXT: "microk8s-cluster"
+  HOST_STAGING: "10.63.27.69"
+  USER_STAGING: "ubuntu"
   ARGOCD_USERNAME: "admin"
   ARGOCD_PASSWORD: "argoAdmin"
   ARGOCD_USER_HOST: "argo"
   ARGOCD_PASSWORD_HOST: "argo"
   ARGOCD_HOST: "10.63.27.54"
   ARGOCD_PORT: 30580
+  ARGOCD_NAMESPACE: "argocd"
 
 before_script:
   - rm -rf .terraform
@@ -72,8 +76,9 @@ sync-k8s-cluster:
     - apk update
     - apk add --upgrade sshpass
     - chmod 400 -R keys/key-file
-    - ssh -i keys/key-file -o StrictHostKeyChecking=no ubuntu@10.63.27.69 microk8s config > $KUBE_CONFIG
-    - sshpass -p "$ARGOCD_PASSWORD_HOST" ssh -o StrictHostKeyChecking=no $ARGOCD_USER_HOST@$ARGOCD_HOST "argocd login $ARGOCD_HOST:$ARGOCD_PORT --insecure --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD && argocd cluster add microk8s-cluster --kubeconfig $KUBE_CONFIG"
+    - ssh -i keys/key-file -o StrictHostKeyChecking=no $USER_STAGING@$HOST_STAGING microk8s config > $KUBE_CONFIG
+    - sshpass -p "$ARGOCD_PASSWORD_HOST" ssh -o StrictHostKeyChecking=no $ARGOCD_USER_HOST@$ARGOCD_HOST "kubectl config --kubeconfig=$KUBE_CONFIG set-context $KUBE_CONTEXT --namespace=$ARGOCD_NAMESPACE"
+    - sshpass -p "$ARGOCD_PASSWORD_HOST" ssh -o StrictHostKeyChecking=no $ARGOCD_USER_HOST@$ARGOCD_HOST "argocd login $ARGOCD_HOST:$ARGOCD_PORT --insecure --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD && argocd cluster add microk8s-cluster --kubeconfig $HOME/.kube/config"
   artifacts:
     paths:
       - ${TF_ROOT}/$KUBE_CONFIG
