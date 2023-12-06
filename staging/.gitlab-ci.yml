@@ -80,11 +80,11 @@ sync-k8s-cluster:
     - ssh -i keys/key-file -o StrictHostKeyChecking=no $USER_STAGING@$HOST_STAGING microk8s config > $KUBE_CONFIG
     - export CLUSTER_URL=$(yq '.clusters[0].cluster.server' $KUBE_CONFIG)
     - export CLUSTER_CERTIFICATE_AUTHORITY_DATA=$(yq '.clusters[0].cluster.certificate-authority-data' $KUBE_CONFIG)
-    - export CLUSTER_USER_NAME=(yq '.users[0].name' $KUBE_CONFIG)
-    - export CLUSTER_USERNAME=(yq '.users[0].user.username' $KUBE_CONFIG)
-    - export CLUSTER_PASSWORD=(yq '.users[0].user.password' $KUBE_CONFIG)
-    - export CLUSTER_CONTEXT_CLUSTER=(yq '.contexts[0].context.cluster' $KUBE_CONFIG)
-    - export CLUSTER_CONTEXT_USER=(yq '.contexts[0].context.user' $KUBE_CONFIG)
+    - export CLUSTER_USER_NAME=$(yq '.users[0].name' $KUBE_CONFIG)
+    - export CLUSTER_USERNAME=$(yq '.users[0].user.username' $KUBE_CONFIG)
+    - export CLUSTER_PASSWORD=$(yq '.users[0].user.password' $KUBE_CONFIG)
+    - export CLUSTER_CONTEXT_CLUSTER=$(yq '.contexts[0].context.cluster' $KUBE_CONFIG)
+    - export CLUSTER_CONTEXT_USER=$(yq '.contexts[0].context.user' $KUBE_CONFIG)
     - sshpass -p "$ARGOCD_PASSWORD_HOST" ssh -o StrictHostKeyChecking=no $ARGOCD_USER_HOST@$ARGOCD_HOST "kubectl config --kubeconfig /home/argo/.kube/config set-cluster microk8s-staging-cluster --server=$CLUSTER_URL --certificate-authority=$CLUSTER_CERTIFICATE_AUTHORITY_DATA"
     - sshpass -p "$ARGOCD_PASSWORD_HOST" ssh -o StrictHostKeyChecking=no $ARGOCD_USER_HOST@$ARGOCD_HOST "kubectl config --kubeconfig /home/argo/.kube/config set-credentials $CLUSTER_USER_NAME --username=$CLUSTER_USERNAME --password=$CLUSTER_PASSWORD"
     - sshpass -p "$ARGOCD_PASSWORD_HOST" ssh -o StrictHostKeyChecking=no $ARGOCD_USER_HOST@$ARGOCD_HOST "kubectl config --kubeconfig /home/argo/.kube/config set-context microk8s-staging-cluster --cluster=$CLUSTER_CONTEXT_CLUSTER --user=$CLUSTER_CONTEXT_USER"
